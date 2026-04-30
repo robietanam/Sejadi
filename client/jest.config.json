@@ -1,0 +1,18 @@
+{
+  "preset": "jest-expo",
+  "testEnvironment": "node",
+  "setupFilesAfterEnv": ["<rootDir>/setup-tests.ts"],
+  "moduleNameMapper": {
+    "^@/(.*)$": "<rootDir>/src/$1"
+  },
+  "testMatch": ["**/__tests__/**/*.test.{ts,tsx}", "**/*.{spec,test}.{ts,tsx}"],
+  "transform": {
+    "^.+\\.(ts|tsx)$": "ts-jest"
+  },
+  "collectCoverageFrom": [
+    "src/**/*.{ts,tsx}",
+    "!src/**/*.d.ts",
+    "!src/**/*.stories.tsx",
+    "!src/**/index.ts"
+  ]
+}
