@@ -21,7 +21,8 @@ export class SessionsController {
     const userId = req.user.sub;
     const sessions = await this.sessionsService.findByUser(userId);
     return sessions.map((s) => ({
-      id: s._id,
+      id: s._id.toString(),
+      deviceId: (s as any).deviceId,
       deviceName: s.deviceName,
       ip: s.ip,
       createdAt: (s as any).createdAt,

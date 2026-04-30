@@ -25,7 +25,6 @@ client.interceptors.request.use(
 client.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    // attempt refresh on 401
     if (error.response?.status === 401) {
       const refreshToken = await storage.getRefreshToken();
       const deviceId = await storage.getDeviceId();
@@ -47,7 +46,7 @@ client.interceptors.response.use(
           }
         } catch (refreshError: any) {
           await storage.clearAll();
-          // propagate structured server response when available
+
           return Promise.reject(
             refreshError.response?.data ?? {
               message: refreshError.message,
@@ -62,8 +61,8 @@ client.interceptors.response.use(
     // propagate structured server response when available; otherwise pass a normalized object
     return Promise.reject(
       error.response?.data ?? {
-        message: error.message,
         data: null,
+        message: (error.response?.data as any)?.message || "Unknown Error",
         status: error.response?.status ?? 500,
       },
     );
@@ -92,6 +91,7 @@ export const api = {
         deviceId,
         deviceName,
       });
+
       return response.data;
     },
 

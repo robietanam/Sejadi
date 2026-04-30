@@ -10,6 +10,9 @@ export class Session extends Document {
   declare deviceName: string;
 
   @Prop()
+  declare deviceId: string;
+
+  @Prop()
   declare ip: string;
 
   @Prop()

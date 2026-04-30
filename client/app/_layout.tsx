@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useAuthStore } from "../src/store/authStore";
@@ -9,6 +9,7 @@ function RootLayoutNav() {
   const router = useRouter();
   const { accessToken, setTokens, setDeviceId } = useAuthStore();
   const [isReady, setIsReady] = useState(false);
+  const navigationRef = useRef<string | null>(null);
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -31,23 +32,24 @@ function RootLayoutNav() {
     };
 
     initializeAuth();
-  }, []);
+  }, [setTokens, setDeviceId]);
 
   useEffect(() => {
     if (!isReady) return;
 
     const inAuthGroup = segments[0] === "(auth)";
+    const targetRoute = accessToken ? "/(app)/home" : "/(auth)/login";
 
-    if (accessToken && inAuthGroup) {
-      router.replace("/(app)/home");
-    } else if (!accessToken && !inAuthGroup) {
-      router.replace("/(auth)/login");
+    // Only navigate if we're not already on the target route
+    if (navigationRef.current !== targetRoute) {
+      navigationRef.current = targetRoute;
+      router.replace(targetRoute);
     }
-  }, [accessToken, isReady, segments]);
+  }, [accessToken, isReady]);
 
   return (
     <>
-      <Stack initialRouteName="(auth)">
+      <Stack>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(app)" options={{ headerShown: false }} />
       </Stack>

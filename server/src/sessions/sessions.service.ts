@@ -31,7 +31,7 @@ export class SessionsService {
 
   async revokeByDevice(userId: string, deviceId: string) {
     const deleted = await this.model
-      .findOneAndDelete({ user: userId, _id: deviceId })
+      .findOneAndDelete({ user: userId, deviceId })
       .exec();
     if (!deleted) throw new NotFoundException('Session not found for device');
     return deleted;
@@ -44,5 +44,20 @@ export class SessionsService {
 
   async findByRefreshToken(token: string) {
     return this.model.findOne({ refreshToken: token }).exec();
+  }
+
+  async updateRefreshToken(sessionId: string, newRefreshToken: string) {
+    const updated = await this.model
+      .findByIdAndUpdate(
+        sessionId,
+        {
+          refreshToken: newRefreshToken,
+          refreshTokenExp: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        },
+        { new: true },
+      )
+      .exec();
+    if (!updated) throw new NotFoundException('Session not found');
+    return updated;
   }
 }

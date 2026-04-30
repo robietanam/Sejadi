@@ -55,7 +55,6 @@ export class ResponseInterceptor implements NestInterceptor {
           message = err;
         }
 
-        // ensure response status is set
         try {
           response.status(status);
         } catch (e) {}

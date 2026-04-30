@@ -95,8 +95,8 @@ export const useAuthStore = create<AuthState>()(
           deviceId,
           deviceName,
         );
-        console.log(response);
-        const { user, accessToken, refreshToken } = response.data.data;
+
+        const { user, accessToken, refreshToken } = response;
 
         await storage.setAccessToken(accessToken);
         await storage.setRefreshToken(refreshToken);

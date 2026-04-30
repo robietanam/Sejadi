@@ -1,13 +1,15 @@
 export interface User {
-  id: string;
+  _id?: string;
+  id?: string;
   email: string;
   firstName?: string;
   lastName?: string;
-  isActive: boolean;
-  isEmailVerified: boolean;
+  isActive?: boolean;
+  isEmailVerified?: boolean;
   lastLogin?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
+  devices?: string[];
 }
 
 export interface AuthResponse {

@@ -18,14 +18,12 @@ export const HomeScreen: React.FC = () => {
   const { user, isLoading, error, setError, loadUser, logout } = useAuthStore();
   const [refreshing, setRefreshing] = React.useState(false);
 
-  useEffect(() => {
-    loadUser();
-  }, []);
-
   const handleRefresh = async () => {
     setRefreshing(true);
     try {
       await loadUser();
+    } catch (err: any) {
+      setError(err?.message || "Failed to refresh user data");
     } finally {
       setRefreshing(false);
     }
@@ -34,9 +32,10 @@ export const HomeScreen: React.FC = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      router.replace("/login");
-    } catch (err) {
-      setError(error);
+    } catch (err: any) {
+      setError(err?.message || "Logout failed");
+    } finally {
+      router.replace("/(auth)/login");
     }
   };
 

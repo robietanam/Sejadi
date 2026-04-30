@@ -11,7 +11,7 @@ import { SessionsModule } from '../sessions/sessions.module';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET ?? 'changeme',
+      secret: process.env.JWT_SECRET ?? 'HACHIMICHIMICHIASIBABA',
       signOptions: { expiresIn: '1h' },
     }),
     UsersModule,

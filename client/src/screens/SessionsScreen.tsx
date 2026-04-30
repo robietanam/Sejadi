@@ -51,13 +51,9 @@ export const SessionsScreen: React.FC = () => {
   };
 
   const handleRevokeAll = async () => {
-    try {
-      await revokeAllSessions();
-      setSuccessMessage("All devices logged out successfully!");
-      setTimeout(() => setSuccessMessage(""), 3000);
-    } catch (err) {
-      setError(error);
-    }
+    await revokeAllSessions();
+    setSuccessMessage("All devices logged out successfully!");
+    setTimeout(() => setSuccessMessage(""), 3000);
   };
 
   const formatDate = (dateString: string) => {

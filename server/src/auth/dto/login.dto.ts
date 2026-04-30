@@ -6,6 +6,6 @@ export class LoginDto {
 
   @IsNotEmpty()
   declare password: string;
-
   deviceName?: string;
+  deviceId?: string;
 }
